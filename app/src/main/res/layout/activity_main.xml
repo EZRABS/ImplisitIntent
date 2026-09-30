@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
     <Button
         android:layout_width="wrap_content"
@@ -12,16 +13,25 @@
         android:id="@+id/btnKirimPesan"
         android:text="Kirim Pesan"/>
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnSetAlarm"
         android:text="Set Alarm"/>
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btnSetTimer"
         android:text="Set Timer"/>
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Masukkan URL"
+        android:id="@+id/etURL"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buka Website"
+        android:id="@+id/btnOpenURL"/>
 
 
 </LinearLayout>
