@@ -9,8 +9,10 @@ import android.provider.AlarmClock
 import android.provider.CalendarContract
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -78,21 +80,16 @@ class MainActivity : AppCompatActivity() {
         }
         val _btnSetEvent = findViewById<Button>(R.id.btnSetEvent)
         _btnSetEvent.setOnClickListener {
-            // Langkah 2: Mengambil tanggal dan waktu saat ini
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Jakarta"))
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
-
-            // Langkah 3: Menampilkan DatePicker dan TimePicker, lalu menjalankan Intent
             val datePickerDialog =
                 DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
                     val timePickerDialog =
                         TimePickerDialog(this, { _, selectedHour, selectedMinute ->
-
-                            // Menyimpan waktu yang dipilih pengguna
                             val selectedDateTime = Calendar.getInstance().apply {
                                 set(
                                     selectedYear,
@@ -102,12 +99,8 @@ class MainActivity : AppCompatActivity() {
                                     selectedMinute
                                 )
                             }
-
-                            // Mengatur waktu selesai event (misalnya ditambah 1 jam dari waktu mulai)
                             val endTime = selectedDateTime.clone() as Calendar
                             endTime.add(Calendar.HOUR_OF_DAY, 1)
-
-                            // Membuat intent untuk menambahkan event ke kalender
                             val eventIntent = Intent(Intent.ACTION_INSERT).apply {
                                 data = CalendarContract.Events.CONTENT_URI
                                 putExtra(CalendarContract.Events.TITLE, "Meeting")
@@ -130,6 +123,18 @@ class MainActivity : AppCompatActivity() {
                 }, year, month, day)
             datePickerDialog.show()
         }
+        val _ivHasil = findViewById<ImageView>(R.id.ivHasil)
+        val _btnGetPhoto = findViewById<Button>(R.id.btnGetPhoto)
+        val cameraLauncher = registerForActivityResult(
+            ActivityResultContracts.TakePicturePreview()
+        ) { bitmap ->
+            if (bitmap != null) {
+                _ivHasil.setImageBitmap(bitmap)
+            }
+        }
 
+        _btnGetPhoto.setOnClickListener {
+            cameraLauncher.launch(input = null)
+        }
     }
 }
