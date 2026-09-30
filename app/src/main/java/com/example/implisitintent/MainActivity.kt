@@ -33,39 +33,39 @@ class MainActivity : AppCompatActivity() {
         _btnKirimPesan.setOnClickListener {
             val _sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra("address","08112345")
-                putExtra( "sms_body","ISI SMS")
-                type="text/plain"
+                putExtra("address", "08112345")
+                putExtra("sms_body", "ISI SMS")
+                type = "text/plain"
             }
-            if (_sendIntent.resolveActivity( packageManager) != null) {
+            if (_sendIntent.resolveActivity(packageManager) != null) {
                 startActivity(_sendIntent)
             }
         }
         val _btnSetAlarm = findViewById<Button>(R.id.btnSetAlarm)
         _btnSetAlarm.setOnClickListener {
             val _alarmIntent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
-                putExtra(AlarmClock.EXTRA_MESSAGE,"COBA ALARM")
-                putExtra(AlarmClock.EXTRA_HOUR,20)
-                putExtra(AlarmClock.EXTRA_MINUTES,15)
-                putExtra(AlarmClock.EXTRA_SKIP_UI,true)
+                putExtra(AlarmClock.EXTRA_MESSAGE, "COBA ALARM")
+                putExtra(AlarmClock.EXTRA_HOUR, 20)
+                putExtra(AlarmClock.EXTRA_MINUTES, 15)
+                putExtra(AlarmClock.EXTRA_SKIP_UI, true)
             }
             startActivity(_alarmIntent)
         }
         val _btnSetTimer = findViewById<Button>(R.id.btnSetTimer)
         _btnSetTimer.setOnClickListener {
             val _timerIntent = Intent(AlarmClock.ACTION_SET_TIMER).apply {
-                putExtra(AlarmClock.EXTRA_MESSAGE,"COBA ALARM")
-                putExtra(AlarmClock.EXTRA_LENGTH,20)
-                putExtra(AlarmClock.EXTRA_SKIP_UI,true)
+                putExtra(AlarmClock.EXTRA_MESSAGE, "COBA ALARM")
+                putExtra(AlarmClock.EXTRA_LENGTH, 20)
+                putExtra(AlarmClock.EXTRA_SKIP_UI, true)
             }
             startActivity(_timerIntent)
         }
         val _btnOpenURL = findViewById<Button>(R.id.btnOpenURL)
         _btnOpenURL.setOnClickListener {
             val _etURL = findViewById<EditText>(R.id.etURL)
-            var _webIntent = Intent (
+            var _webIntent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("http://"+_etURL.text.toString())
+                Uri.parse("http://" + _etURL.text.toString())
             )
 
             if (_webIntent.resolveActivity(packageManager) != null) {
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(
                     this,
                     "Tidak ada Aplikasi Browser ditemukan",
-                        Toast.LENGTH_LONG
+                    Toast.LENGTH_LONG
                 ).show()
             }
         }
@@ -134,7 +134,43 @@ class MainActivity : AppCompatActivity() {
         }
 
         _btnGetPhoto.setOnClickListener {
-            cameraLauncher.launch(input = null)
+            cameraLauncher.launch(null)
+        }
+
+        val _btnBukaMaps = findViewById<Button>(R.id.btnBukaMaps)
+        _btnBukaMaps.setOnClickListener {
+            val _latitude = "-7.24611"
+            val _longitude = "112.73750"
+            val _labelTempat = "Tugu Pahlawan"
+            val gmmIntentUri =
+                Uri.parse("geo:$_latitude,$_longitude?q=$_latitude,$_longitude($_labelTempat)")
+            var _mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri).apply {
+                setPackage("com.google.android.apps.maps")
+            }
+            if (_mapIntent.resolveActivity(packageManager) != null) {
+                startActivity(_mapIntent)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Aplikasi Google Maps tidak ditemukan",
+                    Toast.LENGTH_SHORT
+                ).show()
+                val _webUri =
+                    Uri.parse("https://www.google.com/maps/search/?api=1&query=$_latitude,$_longitude")
+                val _webIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    _webUri
+                )
+                try {
+                    startActivity(_webIntent)
+                } catch (e2: Exception) {
+                    Toast.makeText(
+                        this,
+                        "Tidak ada aplikasi browser yang tersedia",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 }

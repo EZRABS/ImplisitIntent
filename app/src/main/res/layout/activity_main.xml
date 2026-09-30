@@ -42,12 +42,17 @@
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:id="@+id/ivHasil"/>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ambil Foto"
         android:id="@+id/btnGetPhoto"/>
+    <Button
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buka Maps"
+        android:id="@+id/btnBukaMaps"/>
 
 
 </LinearLayout>
